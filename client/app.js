@@ -63,7 +63,7 @@ function getChirps() {
                 <div class="card-body>
                     <h5 class="card-title">Username: ${chirp.username}</h5>
                     <p class="card-text">Chirp: ${chirp.message}</p>
-                    <button>ID: ${chirp.id} Unchirp</button>
+                    <button onclick="() => deleteChirp(chirp.id)">ID: ${chirp.id} Unchirp</button>
                     <button>ID: ${chirp.id} Rechirp</button> 
                 </div>
             </div>`
@@ -78,4 +78,8 @@ getChirps();
 function deleteChirp(id) {
   // contact /api/chirps/:id with a DELETE request to delete the specified chirp
   fetch(`/api/chirps/${id}`, { method: "DELETE" });
+}
+
+function editChirp(id) {
+  // contact /api/chirps/:id with a PUT request to edit the specified chirp
 }
