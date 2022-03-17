@@ -1,7 +1,10 @@
 const chirpsContainer = $("#chirpcontainer");
 const addChirpButton = $("#submitButton");
+const editChirpButton = $(`#editButton`);
 const Chirpbox = $("#Chirpbox");
 const usernameBox = $("#username");
+
+editChirpButton.hide();
 
 addChirpButton.click((e) => {
   e.preventDefault(); // stops the button from refreshing the page
@@ -63,8 +66,8 @@ function getChirps() {
                 <div class="card-body>
                     <h5 class="card-title">Username: ${chirp.username}</h5>
                     <p class="card-text">Chirp: ${chirp.message}</p>
-                    <button class="btn btn-danger"onclick="() => deleteChirp(${chirp.id})">Unchirp</button>
-                    <button class="btn btn-info"onclick="() => editChirp(${chirp.id})">Rechirp</button> 
+                    <button class="btn btn-danger" onclick="() => deleteChirp(${chirp.id})">Unchirp</button>
+                    <button class="btn btn-info" onclick="() => editChirp(${chirp.id})">Rechirp</button> 
                 </div>
             </div>`
         )
@@ -77,15 +80,18 @@ getChirps();
 
 function deleteChirp(id) {
   // contact /api/chirps/:id with a DELETE request to delete the specified chirp
-  fetch(`/api/chirps/:${id}`, { method: "DELETE" })
+  fetch(`/api/chirps/${id}`, { method: "DELETE" })
     .then((res) => res.json())
     .then((res) => getChirps()) // display the chirps afterwards
     .catch((error) => console.log(error));
 }
 
 function editChirp(id) {
+  addChirpButton.hide();
+  editChirpButton.show();
+
   // contact /api/chirps/:id with a PUT request to edit the specified chirp
-  fetch(`/api/chirps/:${id}`, {
+  fetch(`/api/chirps/${id}`, {
     // use the route:  /api/chirps/:id ...
     method: "PUT", // ...send a PUT request...
     headers: {
@@ -95,6 +101,10 @@ function editChirp(id) {
     body: JSON.stringify({ message: Chirpbox.val(), username: usernameBox.val() }), // ...and deliver the content
   })
     .then((res) => res.json())
-    .then((res) => getChirps()) // display the chirps afterwards
+    .then((res) => {
+      getChirps();
+      addChirpButton.show();
+      editChirpButton.hide();
+    }) // display the chirps afterwards
     .catch((error) => console.log(error));
 }
