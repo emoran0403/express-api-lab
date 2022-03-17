@@ -30,15 +30,16 @@ addChirpButton.click((e) => {
   })
     .then((data) => data.json())
     .then((data) => {
-      swal.fire(`${usernameBox.val()} just chirped: ${Chirpbox.val()}`);
+      swal.fire(`${usernameBox.val()} just chirped: ${Chirpbox.val()}`); // by using the values of the input boxes I never ran into the issue of it not displaying chirps
       Chirpbox.val(""); // clears out the form boxes
       usernameBox.val("");
-      getChirps();
+      getChirps(); // display the chirps
     })
     .catch((error) => console.log(error));
 });
 
 function getChirps() {
+  // contacts the server and asks for the chirp data, makes the data nicer, and then displays the chirps starting with the most recent
   fetch("/api/chirps/")
     .then((data) => data.json()) // takes our JSON and turns it into a JS object
     .then((badData) => {
@@ -46,8 +47,8 @@ function getChirps() {
       const niceData = Object.keys(badData).map((key) => {
         // takes bad data and reformats it to an array of objects so we can map over it later
         return {
-          id: key,
-          ...badData[key],
+          id: key, // use the key as the id
+          ...badData[key], // keep all of the old data entries
         };
       });
 
