@@ -37,22 +37,31 @@ addChirpButton.click((e) => {
     .catch((error) => console.log(error));
 });
 
-//! I need to get all chirps, then play with the data structure to turn it into an array and remove the next id key
-// make the button call the deleteChirp function with the chirp ID
 function getChirps() {
   fetch("/api/chirps/")
-    .then((data) => data.json())
-    .then((data) => {
+    .then((data) => data.json()) // takes our JSON and turns it into a JS object
+    .then((badData) => {
+      // badData is the object containing the badly formatted chirp objects
+      const niceData = Object.keys(badData).map((key) => {
+        // takes bad data and reformats it to an array of objects so we can map over it later
+        return {
+          id: key,
+          username: badData[key].username,
+          message: badData[key].message,
+        };
+      });
+
+      niceData.pop(); // pops off the last entry in the array, in this case, the 'nextID' entry which we do not want to display as a chirp
       chirpsContainer.empty();
       chirpsContainer.append(
-        data.map(
+        niceData.map(
           (chirp) =>
             `<div class="card">
                 <div class="card-body>
-                    <h5 class="card-title">${chirp.username}</h5>
-                    <p class="card-text">${chirp.message}</p>
-                    <button onClick(() => {${chirp.id}})>Unchirp</button>
-                    <button onClick(() => {${chirp.id}})>Rechirp</button> 
+                    <h5 class="card-title">Username: ${chirp.username}</h5>
+                    <p class="card-text">Chirp: ${chirp.message}</p>
+                    <button>ID: ${chirp.id} Unchirp</button>
+                    <button>ID: ${chirp.id} Rechirp</button> 
                 </div>
             </div>`
         )
