@@ -19,7 +19,7 @@ let port = 3000;
 app.listen(port, () => console.log(`Chirper Server is up and running on port: ${port}`));
 
 /**
- * todo - reformat the chirp data as an array without the nextid piece at the end
+ * ?DONE! - reformat the chirp data as an array without the nextid piece at the end
  * todo - enable a button to get rid of a particular chirp - bonus to render the page again
  * todo - enable a button to edit a particular chirp - bonus to render the page again
  *

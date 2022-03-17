@@ -79,5 +79,3 @@ function deleteChirp(id) {
   // contact /api/chirps/:id with a DELETE request to delete the specified chirp
   fetch(`/api/chirps/${id}`, { method: "DELETE" });
 }
-
-// <div class="card-header">${chirp?.username}</div>
