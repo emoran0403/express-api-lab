@@ -103,7 +103,7 @@ function getChirps() {
                         <h5 class="card-title">Username: ${chirp.username.toString()}</h5>
                         <p class="card-text">Chirp: ${chirp.message.toString()}</p>
                         <button class="btn btn-danger" onclick="deleteChirp(${chirp.id.toString()})">Unchirp</button>
-                        <button class="btn btn-info" onclick="enableEditChirpButton(${chirp.id}, ${chirp.message}, ${chirp.username})">Rechirp</button> 
+                        <button class="btn btn-info" onclick="enableEditChirpButton(${chirp.id}, '${chirp.message}', '${chirp.username}')">Rechirp</button> 
                     </div>
             </div>`
         );
