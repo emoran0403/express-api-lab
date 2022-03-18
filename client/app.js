@@ -66,8 +66,8 @@ function getChirps() {
                 <div class="card-body>
                     <h5 class="card-title">Username: ${chirp.username}</h5>
                     <p class="card-text">Chirp: ${chirp.message}</p>
-                    <button class="btn btn-danger" onclick="() => deleteChirp(${chirp.id})">Unchirp</button>
-                    <button class="btn btn-info" onclick="() => editChirp(${chirp.id})">Rechirp</button> 
+                    <button class="btn btn-danger" onclick="deleteChirp(${chirp.id})">Unchirp</button>
+                    <button class="btn btn-info" onclick="editChirp(${chirp.id})">Rechirp</button> 
                 </div>
             </div>`
         )
@@ -103,8 +103,8 @@ function editChirp(id) {
     .then((res) => res.json())
     .then((res) => {
       getChirps();
-      addChirpButton.show();
       editChirpButton.hide();
+      addChirpButton.show();
     }) // display the chirps afterwards
     .catch((error) => console.log(error));
 }
