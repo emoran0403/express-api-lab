@@ -6,6 +6,33 @@ const usernameBox = $("#username");
 
 editChirpButton.hide();
 
+editChirpButton.click((e) => {
+  // contact /api/chirps/:id with a PUT request to edit the specified chirp
+  e.preventDefault();
+
+  fetch(`/api/chirps/${tempID}`, {
+    // use the route:  /api/chirps/:id ...
+    method: "PUT", // ...send a PUT request...
+    headers: {
+      // ...specifying the type of content...
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ message: Chirpbox.val(), username: usernameBox.val() }), // ...and deliver the content
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      editChirpButton.hide();
+      addChirpButton.show();
+      tempID = undefined;
+      Chirpbox.val("");
+      usernameBox.val("");
+    })
+    .then((res) => {
+      getChirps();
+    }) // display the chirps afterwards
+    .catch((error) => console.log(error));
+});
+
 addChirpButton.click((e) => {
   e.preventDefault(); // stops the button from refreshing the page
   const message = Chirpbox.val(); // store the value of the text in the chirpbox
@@ -67,7 +94,7 @@ function getChirps() {
                     <h5 class="card-title">Username: ${chirp.username}</h5>
                     <p class="card-text">Chirp: ${chirp.message}</p>
                     <button class="btn btn-danger" onclick="deleteChirp(${chirp.id})">Unchirp</button>
-                    <button class="btn btn-info" onclick="editChirp(${chirp.id})">Rechirp</button> 
+                    <button class="btn btn-info" onclick="enableEditChirpButton(${chirp.id}, ${chirp.message}, ${chirp.username})">Rechirp</button> 
                 </div>
             </div>`
         )
@@ -78,6 +105,8 @@ function getChirps() {
 
 getChirps();
 
+let tempID;
+
 function deleteChirp(id) {
   // contact /api/chirps/:id with a DELETE request to delete the specified chirp
   fetch(`/api/chirps/${id}`, { method: "DELETE" })
@@ -86,25 +115,12 @@ function deleteChirp(id) {
     .catch((error) => console.log(error));
 }
 
-function editChirp(id) {
+function enableEditChirpButton(id, message, username) {
   addChirpButton.hide();
   editChirpButton.show();
 
-  // contact /api/chirps/:id with a PUT request to edit the specified chirp
-  fetch(`/api/chirps/${id}`, {
-    // use the route:  /api/chirps/:id ...
-    method: "PUT", // ...send a PUT request...
-    headers: {
-      // ...specifying the type of content...
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ message: Chirpbox.val(), username: usernameBox.val() }), // ...and deliver the content
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      getChirps();
-      editChirpButton.hide();
-      addChirpButton.show();
-    }) // display the chirps afterwards
-    .catch((error) => console.log(error));
+  Chirpbox.val(message);
+  usernameBox.val(username);
+
+  tempID = id;
 }

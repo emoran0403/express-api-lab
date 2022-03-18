@@ -1,1 +1,7 @@
-{"0":{"message":"message 1","username":"username 1"},"1":{"message":"message 2","username":"username 2"},"2":{"message":"message 3 i hope","username":"my username is eric"},"3":{"message":"something","username":"eric"},"4":{"message":"3","username":"r"},"5":{"message":"Something","username":"Eric"},"6":{"message":"1","username":"2"},"7":{"message":"chirp here","username":"name here"},"8":{"message":"This is a real chirp, not a test chirp...since everything totally works now and i am a genius","username":"Eric the best ever"},"9":{"message":"something","username":"someone"},"nextid":22}
+{
+  "26": { "message": ";oaihrg", "username": ";ijarg" },
+  "27": { "message": "rtrtrt", "username": "trtrtr" },
+  "28": { "message": "egeg", "username": "rege" },
+  "29": { "message": "ttttttttt", "username": "rrrrr" },
+  "nextid": 37
+}
