@@ -4,11 +4,15 @@ const editChirpButton = $(`#editButton`);
 const Chirpbox = $("#Chirpbox");
 const usernameBox = $("#username");
 
-editChirpButton.hide();
+editChirpButton.hide(); // hide the edit box on initial load, we only want it to show up when we're editing a chirp
+
+getChirps(); // get the chirps when the page loads
+
+let tempID; // value assigned when the edit button is pressed, so that the save edit button will have access to the chirp id
 
 editChirpButton.click((e) => {
   // contact /api/chirps/:id with a PUT request to edit the specified chirp
-  e.preventDefault();
+  e.preventDefault(); // dont let the button refresh the page
 
   fetch(`/api/chirps/${tempID}`, {
     // use the route:  /api/chirps/:id ...
@@ -21,15 +25,15 @@ editChirpButton.click((e) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      editChirpButton.hide();
+      editChirpButton.hide(); // swap the button displays
       addChirpButton.show();
-      tempID = undefined;
-      Chirpbox.val("");
+      tempID = undefined; // set tempid to undefined
+      Chirpbox.val(""); // clear out the input boxes
       usernameBox.val("");
     })
     .then((res) => {
-      getChirps();
-    }) // display the chirps afterwards
+      getChirps(); // display the chirps afterwards
+    })
     .catch((error) => console.log(error));
 });
 
@@ -103,10 +107,6 @@ function getChirps() {
     .catch((error) => console.log(error));
 }
 
-getChirps();
-
-let tempID;
-
 function deleteChirp(id) {
   // contact /api/chirps/:id with a DELETE request to delete the specified chirp
   fetch(`/api/chirps/${id}`, { method: "DELETE" })
@@ -116,11 +116,11 @@ function deleteChirp(id) {
 }
 
 function enableEditChirpButton(id, message, username) {
-  addChirpButton.hide();
+  addChirpButton.hide(); // swap the button displays
   editChirpButton.show();
 
-  Chirpbox.val(message);
+  Chirpbox.val(message); // fill the inputs with the previous chirp data
   usernameBox.val(username);
 
-  tempID = id;
+  tempID = id; // set temp id to the current chirp id so that the edit button function will have access to it
 }
