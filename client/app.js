@@ -13,7 +13,8 @@ let tempID; // value assigned when the edit button is pressed, so that the save 
 editChirpButton.click((e) => {
   // contact /api/chirps/:id with a PUT request to edit the specified chirp
   e.preventDefault(); // dont let the button refresh the page
-
+  console.log(Chirpbox);
+  console.log(usernameBox);
   fetch(`/api/chirps/${tempID}`, {
     // use the route:  /api/chirps/:id ...
     method: "PUT", // ...send a PUT request...
@@ -90,19 +91,23 @@ function getChirps() {
       niceData.reverse(); // reverses the array, so that the most recent chirps appear first
       // Even though it destroys the original form of 'niceData' that is ok since 'niceData' is just a copy of our JSON data
       chirpsContainer.empty();
-      chirpsContainer.append(
-        niceData.map(
-          (chirp) =>
-            `<div class="card">
-                <div class="card-body>
-                    <h5 class="card-title">Username: ${chirp.username}</h5>
-                    <p class="card-text">Chirp: ${chirp.message}</p>
-                    <button class="btn btn-danger" onclick="deleteChirp(${chirp.id})">Unchirp</button>
-                    <button class="btn btn-info" onclick="enableEditChirpButton(${chirp.id}, ${chirp.message}, ${chirp.username})">Rechirp</button> 
-                </div>
+
+      // let arr = niceData.map((d) => d); // for debugging
+      // console.log(arr);
+
+      niceData.map((chirp) => {
+        console.log("birdy boi: ", chirp);
+        chirpsContainer.append(
+          `<div class="card">
+                    <div class="card-body>
+                        <h5 class="card-title">Username: ${chirp.username.toString()}</h5>
+                        <p class="card-text">Chirp: ${chirp.message.toString()}</p>
+                        <button class="btn btn-danger" onclick="deleteChirp(${chirp.id.toString()})">Unchirp</button>
+                        <button class="btn btn-info" onclick="enableEditChirpButton(${chirp.id}, ${chirp.message}, ${chirp.username})">Rechirp</button> 
+                    </div>
             </div>`
-        )
-      );
+        );
+      });
     })
     .catch((error) => console.log(error));
 }
@@ -118,6 +123,10 @@ function deleteChirp(id) {
 function enableEditChirpButton(id, message, username) {
   addChirpButton.hide(); // swap the button displays
   editChirpButton.show();
+
+  // console.log(id);
+  // console.log(message);
+  // console.log(username);
 
   Chirpbox.val(message); // fill the inputs with the previous chirp data
   usernameBox.val(username);
